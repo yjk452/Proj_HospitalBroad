@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>진료 내역 및 후기</title>
+    <style>
+        body 
+        {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container 
+        {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2 
+        {
+            text-align: center;
+            color: #333;
+        }
+        table 
+        {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td 
+        {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        button 
+        {
+            width: 100%;
+            max-width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4565a0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+        button:hover 
+        {
+            background-color: #4565a0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>비슷한 증상 진료 내역 및 후기</h2>
+        <button onclick="showMedicalRecords()">진료 내역 보기</button>
+        <button onclick="showReviews()">후기 보기</button>
+        
+        <div id="records" style="display:none;">
+            <h3>진료 내역</h3>
+            <table>
+                <tr>
+                    <th>병원이름</th>
+                    <th>증상명</th>
+                    <th>진료 내용</th>
+                    <th>환자 이름</th>
+                    <th>환자 성별</th>
+                    
+                    <th>의사명</th>
+                </tr>
+
+                {% for record in records %}
+                <tr>
+                    <td>{{ record['병원명'] }}</td>
+                    <td>{{ record['증상명'] }}</td>
+                    <td>{{ record['진료내용'] }}</td>
+                    <td>{{ record['성'] }}**</td>
+                    <td>{{ record['성별'] }}</td>
+                    <td>{{ record['의사명'] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div id="reviews" style="display:none;">
+            <h3>후기</h3>
+            <table>
+                <tr>
+                    <th>병원이름</th>
+                    <th>회원 ID</th>
+                    <th>후기</th>
+                    <th>별점</th>
+                </tr>
+
+                {% for review in reviews %}
+                <tr>
+                    <td>{{ review['병원명'] }}</td>
+                    <td>{{ review['닉네임'] }}</td>
+                    <td>{{ review['후기내용'] }}</td>
+                    <td>{{ review['점수'] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+    <script>
+        function showMedicalRecords() 
+        {
+            document.getElementById("records").style.display = "block";
+            document.getElementById("reviews").style.display = "none";
+        }
+
+        function showReviews() 
+        {
+            document.getElementById("reviews").style.display = "block";
+            document.getElementById("records").style.display = "none";
+        }
+    </script>
+    <button onclick="history.back()">이전 페이지로 돌아가기</button>
+</body>
+</html>

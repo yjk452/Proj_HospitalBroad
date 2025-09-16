@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의하기</title>
+    <style>
+      body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .qna-container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;  /* 세로 정렬 */
+            gap: 20px;  /* 각 요소 간 간격 추가 */
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            color: #333;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        a {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;  /* 항목 간 간격 추가 */
+        }
+
+        .home-btn {
+            padding: 10px 20px;
+            background-color: #4c82af;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            align-self: flex-start;  /* 왼쪽 정렬 */
+            margin-top: 20px;
+        }
+
+        .home-btn:hover {
+            background-color: #4565a0;
+        }
+
+    </style>
+</head>
+
+</table>
+<body>
+    <div class="qna-container">
+        <h2>문의사항</h2>
+            <label for="title">제목</label>
+            <a>{{ question['title'] }}</a>
+
+            <label for="content">문의 내용</label>
+            <a>{{ question['content'] }}</a>
+
+            <label for="respond">답변 내용</label>
+            <a>{{ question['respond'] }}</a>
+    </div>
+    <button class="home-btn" onclick="location.href='/question'">뒤로가기</button>
+</body>
+</html>

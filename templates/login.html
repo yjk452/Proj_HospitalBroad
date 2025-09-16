@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+        .login-container h2 {
+            text-align: center;
+        }
+        .login-container input, .login-container button {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .login-container button {
+            background-color: #4c82af;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        .login-container button:hover {
+            background-color: #4565a0;
+        }
+        form {
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- 로그인 폼 -->
+        <form id="login-form" action="{{ url_for('login', next=request.args.get('next')) }}" method="POST" onsubmit="login(event)">
+            <input id="login-id" type="text" name="memberID" placeholder="ID" required>
+            <input id="login-pw" type="password" name="memberPW" placeholder="PW" required>
+
+            <button type="submit">로그인</button>
+        </form>
+        <button onclick="location.href='/join'">회원가입</button>
+    </div>
+    <script>
+        async function login(event) {
+            event.preventDefault();
+    
+            const id = document.getElementById('login-id').value.trim();
+            const pw = document.getElementById('login-pw').value.trim();
+    
+            const formData = new FormData();
+            formData.append('memberID', id);
+            formData.append('memberPW', pw);
+    
+            // AJAX 요청으로 백엔드 결과 받기
+            const response = await fetch('/login', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+    
+            if (result.status === 'success') {
+                if (result.type === 'admin') {
+                    alert('관리자로 로그인되었습니다.');
+                } else if (result.type === 'user') {
+                    alert('일반 사용자로 로그인되었습니다.');
+                }
+                // 백엔드에서 제공한 URL로 이동
+                window.location.href = result.redirect_url;
+            } else {
+                alert(result.message);
+            }
+        }
+    </script>    
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의하기</title>
+    <style>
+        body 
+        {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .qna-container 
+        {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 
+        {
+            text-align: center;
+            font-size: 28px;
+            color: #333;
+        }
+
+        table 
+        {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td 
+        {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table th 
+        {
+            background-color: #f4f4f4;
+        }
+
+        table td a 
+        {
+            text-decoration: none;
+            color: #4c82af;
+        }
+
+        button 
+        {
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color:  #4c82af;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px
+        }
+        .home-btn {
+        position: relative;  /* position 수정 */
+        margin-top: 20px;  /* 위쪽 여백 추가 */
+        }
+        .qna-container {
+            display: flex;
+            flex-direction: column;  /* 세로 방향으로 정렬 */
+            align-items: flex-start;  /* 왼쪽 정렬 */
+        }
+
+        .qna-container button {
+            margin-top: 10px;  /* 버튼 사이 간격 */
+        }
+        button:hover 
+        {
+            background-color: #4565a0;
+        }
+    </style>
+</head>
+<body>
+    <div class="qna-container">
+        <h2>문의사항</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>닉네임</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                <tr>
+                    <td>{{ question['번호'] }}</td>
+                    <td><a href="/question/{{question['번호']}}">{{ question['제목'] }}</a></td>
+                    <td>{{ question['닉네임'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button class="back-btn" onclick="location.href='/'">뒤로가기</button>
+        <button onclick="location.href='/write_qna'">문의 작성하기</button>
+    </div>
+</body>
+</html>

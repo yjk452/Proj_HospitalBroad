@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>증상 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #4c82af;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .table-container {
+            margin: 20px auto;
+            max-width: 800px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        table th {
+            background-color: #f4f4f4;
+        }
+        table td a {
+            text-decoration: none;
+            color: #4c82af;
+        }
+        .sidebar {
+            flex: 1;
+            display: flex;
+            flex-direction: row;  /* 가로로 배치 */
+            align-items: center;  /* 가로로 가운데 정렬 */
+            justify-content: center;  /* 수평 중앙 정렬 */
+            gap: 15px;
+            height: 100%;
+            padding-top: 100px;  /* 위쪽 여백 조정 */
+            padding-right: 0;  /* 오른쪽 패딩 제거 */
+        }
+
+        .button {
+            width: 100%;
+            max-width: 200px;
+            margin: 15px 0;
+            padding: 15px 0;
+            font-size: 18px;
+            color: #fff;
+            background-color: #4565a0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #4565a0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>증상 목록</h1>
+    </header>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="5">증상</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in symptoms|batch(5) %}
+                <tr>
+                    {% for symptom in row %}
+                    <td>
+                        <a href="/symptom/{{ symptom['symptomCD'] }}">{{ symptom['symptomname'] }}</a>
+                    </td>
+                    {% endfor %}
+                    {% for _ in range(5 - row|length) %} 
+                    <td></td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+        <div class="sidebar">
+            <a href="/login">
+                <button class="login-btn">로그인</button>
+            </a>
+            <a href="/write_review">
+                <button class="review-btn">후기작성</button>
+            </a>
+            <a href="/question">
+                <button class="qna-btn">문의하기</button>
+            </a>
+            <a href="/logout">
+                <button class="logout-btn">로그아웃</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

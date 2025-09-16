@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의하기</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.qna-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+table th {
+    background-color: #f4f4f4;
+}
+
+table td a {
+    text-decoration: none;
+    color: #4c82af;
+}
+
+.answer-section {
+    display: none;
+}
+
+textarea {
+    width: 100%;  /* 90% -> 100%로 수정하여 전체 너비 차지 */
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    height: 200px;  /* 텍스트 영역 크기 설정 */
+    resize: vertical;  /* 수직으로 크기 조정 가능하도록 설정 */
+}
+
+.submit-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4c82af;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-btn:hover {
+    background-color: #4565a0;
+}
+
+.write-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #4c82af;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.write-btn:hover {
+    background-color: #4565a0;
+}
+
+/* 세로 정렬을 위한 form 스타일 */
+form {
+    display: flex;
+    flex-direction: column;  /* 세로로 정렬 */
+    gap: 20px;  /* 요소 간 간격 추가 */
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+a {
+    font-size: 16px;
+    color: #555;
+}
+
+    </style>
+</head>
+
+</table>
+<body>
+    <div class="qna-container">
+        <h2>문의사항</h2>
+        <form action="{{ url_for('answer_question', question_id=question_id) }} " method="POST">
+            <label for="title">제목</label>
+            <a>{{ question['title'] }}</a>
+
+            <label for="content">문의 내용</label>
+            <a>{{ question['content'] }}</a>
+
+            <label for="respond">답변 내용</label>
+            <a>{{ question['respond'] }}</a>
+
+            <label for="answer">답변입력</label>
+            <!-- 질문 ID를 동적으로 텍스트 영역 ID에 추가 -->
+            <textarea id="answer-{{ question['questioncd'] }}" name="answer" required></textarea>
+            <button type="button" class="submit-btn" onclick="submitAnswer( question['questioncd'])">답변 제출</button>
+        </form>
+        <button class="back-btn" onclick="location.href='/admin_home'">뒤로가기</button>
+        
+    </div>
+
+    <script>
+        window.onload = function() {
+            const userId = sessionStorage.getItem('userId');
+            if (userId === 'admin') {
+                document.querySelectorAll('.answer-section').forEach(section => {
+                    section.style.display = 'block';
+                });
+
+                document.getElementById('answer-header').style.display = 'table-cell';
+            }
+        };
+
+        function submitAnswer(questionId) {
+            const answerField = document.getElementById(`answer-${questionId}`);
+            const answerText = answerField.value.trim();
+
+            if (answerText === '') {
+                alert('답변 내용을 입력해주세요.');
+                return;
+            }
+            fetch(`/answer_question/${questionId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ answer: answerText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('답변이 성공적으로 저장되었습니다.');
+                } else {
+                    alert('답변 저장에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('답변 저장 중 오류가 발생했습니다.');
+            });
+
+            alert(`문의 ${questionId}에 대한 답변이 저장되었습니다: ${answerText}`);
+            answerField.value = '';
+        }
+    </script>
+</body>
+</html>

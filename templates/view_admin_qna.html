@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의하기</title>
+    <style>
+        body 
+        {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .qna-container 
+        {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 
+        {
+            text-align: center;
+            font-size: 28px;
+            color: #333;
+        }
+
+        table 
+        {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td 
+        {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table th 
+        {
+            background-color: #f4f4f4;
+        }
+
+        table td a 
+        {
+            text-decoration: none;
+            color: #4c82af;
+        }
+
+        button 
+        {
+            padding: 8px 16px;
+            background-color: #4c82af;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover 
+        {
+            background-color: #4565a0;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        form {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="qna-container">
+        <h2>문의사항</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>닉네임</th>
+                    <th>답변하기</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                <tr>
+                    <td>{{ question['번호'] }}</td>
+                    <td>{{ question['제목'] }}</a></td>
+                    <td>{{ question['닉네임'] }}</td>
+                    <td> 
+                        <form action="/answer_question/{{ question['번호'] }}" method="GET">
+                            <button type="submit">답변하기</button>
+                        </form>
+                    </td>
+                    <td> 
+                        <form id="delete-form-{{ question['번호'] }}" method="POST" onsubmit="deleteQuestion(event, {{ question['번호'] }} )">
+                            <button type="submit">삭제하기</button>
+                        </form>
+                    </td>                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button class="home-btn" onclick="location.href='/'">home</button>
+    </div>
+    <script>
+        // deleteQuestion 함수는 삭제 버튼 클릭 시 호출되어 AJAX 요청을 보냄
+        function deleteQuestion(event, questionId) {
+        event.preventDefault();  // 기본 폼 제출 동작을 막음
+
+        if (confirm('정말 삭제하시겠습니까?')) {
+            fetch(`/delete_question/${questionId}`, {
+                method: 'POST',  // HTTP POST 요청
+                headers: {
+                    'Content-Type': 'application/json',
+             },
+            })
+            then(response => {
+                if (response.ok) {
+                // 삭제 성공 시, 해당 행을 페이지에서 제거
+                    document.getElementById(`row-${questionId}`).remove();
+                    location.reload();
+                } else {
+                    alert('삭제 실패');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('서버 오류가 발생했습니다.');
+            });
+        }
+    }
+    </script>
+</body>
+</html>

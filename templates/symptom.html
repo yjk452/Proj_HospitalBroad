@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>증상 상세</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+        }
+
+        header {
+            background: #4c82af;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .symptom-info {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .hospital-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 2rem;
+        }
+
+        .hospital {
+            flex: 1;
+            margin: 0 10px;
+            padding: 1rem;
+            background: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .hospital h3 {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .hospital p {
+            margin: 10px 0;
+        }
+
+        .hospital ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .hospital ul li {
+            margin-bottom: 10px;
+        }
+
+        .button {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 20px;
+            padding: 20px;
+            font-size: 22px;
+            color: white;
+            background-color: #4565a0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #36588a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{ symptom['explain'] }}</h1>
+    </header>
+    <div class="container">
+        <h2>주변 병원 추천</h2>
+        <div class="hospital-info">
+            <div class="hospital">
+                <h3>{{hospital1['hospitalname']}}</h3>
+                <ul>
+                    <li><strong>주소:</strong> {{hospital1['address']}}</li>
+                    <li><strong>전화번호:</strong> {{hospital1['callnumber']}}</li>
+                    <li><strong>홈페이지:</strong> {% if hospital1['link'] != '정보 없음' %}
+                        <a href="{{ hospital1['link'] }}" target="_blank">{{ hospital1['link'] }}</a> 
+                    {% else %}
+                        정보 없음 
+                    {% endif %}</li>
+                    <li><strong>전문분야:</strong> {{ hospital1['field'] }}</li>
+                    <li><strong>평균 점수:</strong> {{ hospital1['평균'] }}</li>
+                </ul>
+            </div>
+
+            <div class="hospital">
+                <h3>{{hospital2['hospitalname']}}</h3>
+                <ul>
+                    <li><strong>주소:</strong> {{hospital2['address']}} </li>
+                    <li><strong>전화번호:</strong> {{hospital2['callnumber']}}</li>
+                    <li><strong>홈페이지:</strong>{% if hospital2['link'] != '정보 없음' %}
+                        <a href="{{ hospital2['link'] }}" target="_blank">{{ hospital2['link'] }}</a> <!-- link가 있으면 URL로 이동 -->
+                    {% else %}
+                        정보 없음 <!-- link가 없으면 '정보 없음' 표시 -->
+                    {% endif %}</li>
+                    <li><strong>전문분야:</strong> {{ hospital2['field'] }}</li>
+                    <li><strong>평균 점수:</strong> {{ hospital2['평균'] }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <a href="/view_records_and_reviews/{{ symptom['symptomCD'] }}">
+            <button class="button">비슷한 증상 진료 내역 및 후기 보기</button>
+        </a>
+    </div>
+</body>
+</html>

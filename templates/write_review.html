@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>후기 작성</title>
+    <style>
+        body 
+        {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .write-qna-container
+        {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 
+        {
+            text-align: center;
+            font-size: 28px;
+            color: #333;
+        }
+
+        form 
+        {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label 
+        {
+            margin: 10px 0 5px;
+            font-size: 16px;
+        }
+
+        input, textarea 
+        {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        textarea 
+        {
+            resize: vertical;
+            min-height: 150px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        button 
+        {
+            padding: 10px 20px;
+            background-color: #4c82af;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #4565a0;
+        }
+    </style>
+</head>
+<body>
+    <div class="write-qna-container">
+        <h2>후기 작성하기</h2>
+        <form action="home.html" method="get">
+            <label for="hospital-name">병원명</label>
+            <input type="text" id="hospital-name" name="hospital-name" required>
+
+            <label for="rating">평점</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" required>
+            
+            <label for="review-content">후기</label>
+            <textarea id="review-content" name="review-content" required></textarea>
+
+            <button type="submit">완료</button>
+        </form>
+    </div>
+</body>
+</html>
